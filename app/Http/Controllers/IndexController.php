@@ -19,8 +19,4 @@ class IndexController extends Controller
     public function register() {
         return view('register');
     }
-
-    public function profile() {
-        echo 'Профиль';
-    }
 }

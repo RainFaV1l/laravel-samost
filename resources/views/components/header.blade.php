@@ -1,12 +1,10 @@
 <header class="header-footer">
     <div class="header__container">
-        <div class="header__logo">Логотип</div>
+        <a href="{{ route('index.index') }}" class="header__logo">Логотип</a>
         <nav class="header__nav">
             <ul class="header__menu">
                 <li class="header__item"><a href="{{ route('index.index') }}" class="header__link">Главная</a></li>
-                @auth
-                    <li class="header__item"><a href="{{ route('logout') }}" class="header__link">Выход</a></li>
-                @endauth
+                <li class="header__item"><a href="{{ route('books.create.view') }}" class="header__link">Добавить</a></li>
             </ul>
         </nav>
         <div class="header__buttons">
@@ -15,7 +13,7 @@
                 <a href="{{ route('index.register') }}" class="button">Регистрация</a>
             @endguest
             @auth
-                <a href="{{ route('index.profile') }}" class="button">Профиль</a>
+                <a href="{{ route('logout') }}" class="button">Выход</a>
             @endauth
         </div>
     </div>

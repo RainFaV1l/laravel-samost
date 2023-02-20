@@ -14,21 +14,26 @@ class AuthController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:3|unique:users,name',
-            'password' => 'required|min:6|same:re_password',
+            'password' => 'required|min:6|same:password_r',
         ], [
-            'name.min' => 'Минимальная длина 3 символа'
+            'name.min' => 'Минимальная длина 3 символа',
+            'required' => 'Обязательна к заполнению',
+            'name.unique' => 'Данный логин уже зарегистрирован',
+            'password.min' => 'Минимальная длина 6 символов',
+            'password.same' => 'Пароли не совпадают',
         ], [
             'name' => 'имя пользователя',
             'password' => 'пароль',
         ]);
 
         if($validator->fails()) {
-            return back()->withErrors($validator->errors())->withInput($request->all());;
+            return back()->withErrors($validator->errors())->withInput($request->all());
         }
 
-        $request['password'] = Hash::make($request['password']);
+        $user = User::query()->create(
+            ['password' => Hash::make($request['password'])] + $validator->validated(),
+        );
 
-        $user = User::query()->create($request->all());
         Auth::login($user);
         return redirect(route('index.index'));
 
@@ -44,6 +49,13 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:3',
             'password' => 'required|min:6',
+        ], [
+            'name.min' => 'Минимальная длина 3 символа',
+            'required' => 'Обязательна к заполнению',
+            'password.min' => 'Минимальная длина 6 символов',
+        ], [
+            'name' => 'имя пользователя',
+            'password' => 'пароль',
         ]);
 
         if($validator->fails()) {
@@ -51,10 +63,10 @@ class AuthController extends Controller
         }
 
         if(!Auth::attempt($validator->validated())) {
-            return back()->withErrors(['invalid' => 'Invalid credentials']);
+            return back()->withErrors(['invalid' => 'Неверный логин или пароль']);
         }
 
-        if(Auth::user()->role === 'banned') {
+        if(Auth::user()->role === 0) {
             Auth::logout();
             return redirect()->route('blocked');
         }

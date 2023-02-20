@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\IndexController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +24,14 @@ Route::controller(IndexController::class)->group(function () {
     Route::get('/', 'index')->name('index.index');
     Route::get('/login', 'login')->name('index.login');
     Route::get('/register', 'register')->name('index.register');
-    Route::get('/profile', 'profile')->name('index.profile');
+});
+
+Route::controller(BookController::class)->prefix('books')->group(function () {
+    Route::get('/create', 'create')->name('books.create.view');
+    Route::post('/create', 'store')->name('books.create');
+    Route::get('/edit', 'edit')->name('books.edit.view');
+    Route::post('/edit', 'update')->name('books.edit');
+    Route::get('/{id}', 'show')->name('books.show.view');
 });
 
 Route::controller(AuthController::class)->group(function () {
