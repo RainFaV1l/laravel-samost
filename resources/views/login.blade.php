@@ -1,4 +1,4 @@
-@extends('layouts.index');
+@extends('layouts.index')
 
 @section('title')
     <title>Авторизация</title>
