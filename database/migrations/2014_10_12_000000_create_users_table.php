@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('password');
-            $table->integer('role')->default(1);
+            $table->enum('role', ['user', 'admin', 'banned'])->default('user');
             $table->timestamps();
         });
     }

@@ -29,8 +29,8 @@ Route::controller(IndexController::class)->group(function () {
 Route::controller(BookController::class)->prefix('books')->group(function () {
     Route::get('/create', 'create')->name('books.create.view');
     Route::post('/create', 'store')->name('books.create');
-    Route::get('/edit', 'edit')->name('books.edit.view');
-    Route::post('/edit', 'update')->name('books.edit');
+    Route::get('/{id}/edit', 'edit')->name('books.edit.view');
+    Route::post('/{id}/edit', 'update')->name('books.edit');
     Route::get('/{id}', 'show')->name('books.show.view');
 });
 

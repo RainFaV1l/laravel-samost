@@ -20,6 +20,12 @@
                 <div class="books-item__name accent">
                     Автор: {{ $book->author()->name }}
                 </div>
+                @auth
+                    @if($book->user_has_actions)
+                        <a href="{{ route('books.edit.view', $book) }}" class="button">Редкатировать</a>
+                        <a href="" class="button">Удалить</a>
+                    @endif
+                @endauth
             </div>
         </div>
     </div>

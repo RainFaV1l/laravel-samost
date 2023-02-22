@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('author_id')->constrained('users', 'id');
             $table->string('path')->nullable();
             $table->enum('category', ['Фантастика', 'Ужасы', 'Драма'])->default('Фантастика');
+            $table->enum('status', ['В модерации', 'Опубликован', 'Заблокирован'])->default('В модерации');
             $table->timestamps();
         });
     }
